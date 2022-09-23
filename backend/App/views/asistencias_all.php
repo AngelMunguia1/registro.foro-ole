@@ -70,72 +70,7 @@
         </nav>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <!-- <div class="row">
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body p-3 position-relative">
-                            <div class="row">
-                                <div class="col-7 text-start">
-                                    <p class="text-sm mb-1 text-capitalize font-weight-bold">Listas de Asistencias Generadas</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        <?php echo $num_asistencias; ?>  Listas
-                                    </h5>
-                                </div>
-                                <div class="col-5">
-                                    <div class="dropdown text-end">
-                                        <a href="" class="cursor-pointer text-secondary" id="dropdownUsers1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="fa fa-plane"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 mt-sm-0 mt-4">
-                    <div class="card">
-                        <div class="card-body p-3 position-relative">
-                            <div class="row">
-                                <div class="col-7 text-start">
-                                    <p class="text-sm mb-1 text-capitalize font-weight-bold">Listas de Asistencias Concluidas</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        <?php echo $num_finalizadas; ?> Listas
-                                    </h5>
-                                </div>
-                                <div class="col-5">
-                                    <div class="dropdown text-end">
-                                        <a href="" class="cursor-pointer text-secondary" id="dropdownUsers1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="fa fa-plane"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 mt-sm-0 mt-4">
-                    <div class="card">
-                        <div class="card-body p-3 position-relative">
-                            <div class="row">
-                                <div class="col-8 text-start">
-                                    <p class="text-sm mb-1 text-capitalize font-weight-bold">Listas de Asistencias por Aplicar</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        <?php echo $totalvuelos; ?> Listas
-                                    </h5>
-                                </div>
-                                <div class="col-4">
-                                    <div class="dropdown text-end">
-                                        <a href="" class="cursor-pointer text-secondary" id="dropdownUsers1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="fa fa-users"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
+        
             <!-- Inicio barrita -->
 
             <div class=" mt-7">
@@ -150,7 +85,7 @@
                         <div class="col-auto my-auto">
                             <div class="h-100">
                                 <h5 class="mb-1">
-                                    Listas de Asistencias
+                                    Listas de Asistencias <?php echo $tema_foro?>
                                 </h5>
                                 <p class="mb-0 font-weight-bold text-sm">
                                 </p>
@@ -242,60 +177,7 @@
         </div>
 
         <!-- Modal Agregar Asistencia-->
-        <div class="modal fade" id="Modal_Add" role="dialog" aria-labelledby="asignar_habitacionLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <form class="form-horizontal" id="add" action="/Asistencias/asistenciasAdd" method="POST">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="asignar_habitacionLabel">Generar Lista de Asistencia</h5>
-                            <button type="button" class="btn bg-gradient-danger" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card-body pt-0">
-                                <div class="row mb-3">
-                                    <label class="form-label">Nombre *</label>
-                                    <div class="input-group">
-                                        <input id="nombre" name="nombre" class="form-control" type="text" placeholder="Asistencia Plenaria Bienvenida" onfocus="focused(this)" onfocusout="defocused(this)" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label class="form-label">Descripción (Opcional)</label>
-                                    <div class="input-group">
-                                        <textarea id="descripcion" name="descripcion" maxlength="1000" class="form-control" placeholder="Descripción"></textarea>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label class="form-label">Fecha *</label>
-                                    <div class="input-group">
-                                        <input id="fecha_asistencia" name="fecha_asistencia" maxlength="29" class="form-control" type="date" min required="" onfocus="focused(this)" onfocusout="defocused(this)"" style=" text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="form-label">Hora Asistencia (Inicio) *</label>
-                                    <div class="input-group">
-                                        <input id="hora_asistencia_inicio" name="hora_asistencia_inicio" maxlength="29" class="form-control" type="time" required="" onfocus="focused(this)" onfocusout="defocused(this)"" style=" text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="form-label">Hora Asistencia (Fin) *</label>
-                                    <div class="input-group">
-                                        <input id="hora_asistencia_fin" name="hora_asistencia_fin" maxlength="29" class="form-control" type="time" required="" onfocus="focused(this)" onfocusout="defocused(this)"" style=" text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-success" id="btn_upload" name="btn_upload">Aceptar</button>
-                            <button type="button" class="btn bg-gradient-secondary" data-dismiss="modal">Cancelar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <?php echo $modal?>
         <!--End Modal-->
         <div class="modal fade" id="Modal_Add_Salidas" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">

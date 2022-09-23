@@ -37,8 +37,16 @@ class Asistentes extends Controller
 
     public function index()
     {
+        $paises = AsistentesDao::getPais();
+        $optionPais = '';
+        foreach($paises as $key => $value){
+            $optionPais .= <<<html
+                    <option value="{$value['id_pais']}">{$value['pais']}</option>
+html;
+        }
 
         View::set('asideMenu',$this->_contenedor->asideMenu());
+        View::set('optionPais', $optionPais);
         // View::set('tabla_faltantes', $this->getAsistentesFaltantes());
         // View::set('tabla', $this->getAllColaboradoresAsignados());
         View::render("asistentes_all");
@@ -61,6 +69,63 @@ class Asistentes extends Controller
         View::set('tabla', $this->getAllColaboradoresAsignadosByName($search));
         View::set('asideMenu',$this->_contenedor->asideMenu());    
         View::render("asistentes_all");
+    }
+
+    public function getEstadoPais(){
+        $pais = $_POST['pais'];
+
+        if (isset($pais)) {
+            $Paises = AsistentesDao::getStateByCountry($pais);
+
+            echo json_encode($Paises);
+        }
+    }
+
+    public function isUserValidate(){
+        echo (count(AsistentesDao::getUserRegister($_POST['usuario']))>=1)? 'true' : 'false';
+    }
+
+    public function saveData()
+    {
+        $date = date('Y-m-d');
+        $str_nombre = mb_str_split($_POST['nombre']);
+        $str_apellidop = mb_str_split($_POST['apellidop']);
+
+        $fecha = explode('-',$date);
+
+        $referencia = $str_nombre[0].$str_nombre[1].$str_apellidop[0].$str_apellidop[1].$fecha[0].$fecha[1].$fecha[2];
+
+        $nombre = $_POST['nombre'];
+        $apellidop = $_POST['apellidop'];
+        $apellidom = $_POST['apellidom'];
+        $categoria = MasterDom::getData('categoria');
+        $nombre_constancia = $_POST['nombre']." ". $_POST['apellidop'] . " ". $_POST['apellidom'];
+
+        $data = new \stdClass();            
+        $data->_nombre = $nombre;
+        $data->_apellidop = $apellidop;
+        $data->_apellidom = $apellidom; 
+        $data->_usuario = MasterDom::getData('usuario');
+        $data->_title= MasterDom::getData('title');
+        $data->_telefono = MasterDom::getData('telefono');
+        $data->_pais = MasterDom::getData('pais');
+        $data->_estado = MasterDom::getData('estado');
+        $data->_nombreconstancia = $nombre_constancia;
+        $data->_modalidad = MasterDom::getData('modalidad');
+        $data->_categoria = MasterDom::getData('categoria');
+        $data->_referencia = $referencia;
+        $data->_motivo = MasterDom::getData('motivo');
+
+        $id = AsistentesDao::insert($data);
+        if ($id >= 1) {
+            echo "success";
+            // $this->alerta($id,'add');
+            //header('Location: /PickUp');
+        } else {
+            echo "error";
+            // header('Location: /PickUp');
+            //var_dump($id);
+        }
     }
 
     public function setTicketVirtual($asistentes){
@@ -838,6 +903,12 @@ html;
         foreach (GeneralDao::getAllColaboradoresByName($name) as $key => $value) {
             // $value['apellido_materno'] = utf8_encode($value['apellido_materno']);
             // $value['nombre'] = utf8_encode($value['nombre']);
+            $foro = '';
+            if($value['foro'] == 1){
+                $foro = 'Hematología';
+            }else{
+                $foro = 'Oncología';
+            }
 
             if (empty($value['img']) || $value['img'] == null) {
                 $img_user = "/img/user.png";
@@ -877,6 +948,7 @@ html;
                             <a href="/Asistentes/Detalles/{$value['clave']}" target="_blank">
                                 <h6 class="mb-0 text-sm text-move text-black">
                                     <span class="fa fa-user-md" style="font-size: 13px"></span> {$nombre_completo} $estatus
+                                    <b><h6 class="mb-0 text-sm text-black"><span class="fa fa-note" style="font-size: 13px"></span> {$value['nota']}</h6></b>
                                 </h6>
                             </a>
                             <!--<p class="text-sm mb-0"><span class="fa fa-solid fa-id-card" style="font-size: 13px;"></span> Número de empleado:  <span style="text-decoration: underline;">{$value['numero_empleado']}</span></p>-->
@@ -889,6 +961,7 @@ html;
          
                 <td style="text-align:left; vertical-align:middle;"> 
                     <u><h6 class="mb-0 text-sm text-black"><span class="fa fa-mail-bulk" style="font-size: 13px"></span> {$value['email']}</h6></u>
+                    <b><h6 class="mb-0 text-sm text-black"><span class="fa fa-build" style="font-size: 13px"></span>Foro: {$foro}</h6></b>
                 </td>
 
         

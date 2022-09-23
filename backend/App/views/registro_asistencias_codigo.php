@@ -449,7 +449,7 @@
                         }
                     } else  {
                         Swal.fire({
-                            title: '¡Lo sentimos, esta persona no se encuentra registrada en nuestra base de datos!',
+                            title: '¡Lo sentimos, esta persona no se encuentra registrada o no pertenece al foro!',
                             icon: 'warning',
                             timer: 1000,
                             didOpen: () => {

@@ -353,7 +353,7 @@ sql;
 
 //CONSULTA PA LA LISTA DE ASISTENCIAS
 
-    public static function getRegistrosAsistenciasByCode($code){
+    public static function getRegistrosAsistenciasByCode($code,$foro){
         $mysqli = Database::getInstance();
         $query=<<<sql
         SELECT a.nombre AS nombre_asistencia, ras.utilerias_asistentes_id, ra.email, ras.id_registro_asistencia, ras.status,
@@ -363,7 +363,8 @@ sql;
         INNER JOIN asistencias a ON a.id_asistencia = id_asistencias
         INNER JOIN registros_acceso ra ON ra.id_registro_acceso = ras.utilerias_asistentes_id
         INNER JOIN linea_principal lp ON lp.id_linea_principal = ra.especialidad
-        WHERE a.clave = '$code' GROUP BY ras.utilerias_asistentes_id;
+        WHERE a.clave = '$code' AND ra.foro = $foro
+        GROUP BY ras.utilerias_asistentes_id;
 sql;
         return $mysqli->queryAll($query);
     }

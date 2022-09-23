@@ -37,7 +37,7 @@ sql;
 //REGISTROS ACCESOS NADA MÁS
 $query =<<<sql
     SELECT * FROM registros_acceso 
-    WHERE CONCAT_WS(email,nombre,segundo_nombre,apellido_materno,apellido_paterno,ticket_virtual) LIKE '%$search%';
+    WHERE CONCAT_WS(nota,email,nombre,segundo_nombre,apellido_materno,apellido_paterno,ticket_virtual) LIKE '%$search%';
 sql;
     return $mysqli->queryAll($query);
   }
@@ -210,18 +210,6 @@ sql;
         $accion->_id = $id;
         UtileriasLog::addAccion($accion);
         return $mysqli->update($query, $parametros);
-    }
-    public static function deleteById($id){
-        $mysqli = Database::getInstance();
-        $query=<<<sql
-DELETE FROM catalogo_dia_festivo WHERE catalogo_dia_festivo.catalogo_dia_festivo_id = $id
-sql;
-      $accion = new \stdClass();
-      $accion->_sql= $query;
-      $accion->_parametros = $parametros;
-      $accion->_id = $id;
-      UtileriasLog::addAccion($accion);
-        return $mysqli->queryOne($query);
     }
     public static function getById($id){
         $mysqli = Database::getInstance();

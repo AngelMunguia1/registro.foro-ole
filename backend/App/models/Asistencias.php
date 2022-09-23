@@ -8,22 +8,31 @@ use \App\interfaces\Crud;
 use \App\controllers\UtileriasLog;
 
 class Asistencias implements Crud{
+  
     public static function getAll(){
+    
+    }
+
+    public static function getAllA($asistencia){
       $mysqli = Database::getInstance();
       $query=<<<sql
-      SELECT * FROM asistencias
+      SELECT * FROM asistencias WHERE foro = $asistencia;
 sql;
       return $mysqli->queryAll($query);
         
     }
+
     public static function getById($id){
          
     }
-    public static function insert($data){
+    public static function insert($id){
+         
+    }
+    public static function insertHema($data){
         $mysqli = Database::getInstance(1);
         $query=<<<sql
-            INSERT INTO asistencias(id_asistencia, clave, nombre, descripcion, fecha_asistencia, hora_asistencia_inicio, hora_asistencia_fin, url, utilerias_administrador_id)
-            VALUES(null, :clave, :nombre, :descripcion, :fecha_asistencia, :hora_asistencia_inicio, :hora_asistencia_fin, :url, :utilerias_administrador_id);
+            INSERT INTO asistencias(id_asistencia, clave, nombre, descripcion, fecha_asistencia, hora_asistencia_inicio, hora_asistencia_fin, url, utilerias_administrador_id,foro)
+            VALUES(null, :clave, :nombre, :descripcion, :fecha_asistencia, :hora_asistencia_inicio, :hora_asistencia_fin, :url, :utilerias_administrador_id, '1');
 sql;
 
 
@@ -45,6 +54,34 @@ sql;
             return $id;
          
     }
+
+    public static function insertOnco($data){
+      $mysqli = Database::getInstance(1);
+      $query=<<<sql
+          INSERT INTO asistencias(id_asistencia, clave, nombre, descripcion, fecha_asistencia, hora_asistencia_inicio, hora_asistencia_fin, url, utilerias_administrador_id,foro)
+          VALUES(null, :clave, :nombre, :descripcion, :fecha_asistencia, :hora_asistencia_inicio, :hora_asistencia_fin, :url, :utilerias_administrador_id, '2');
+sql;
+
+
+          $parametros = array(
+          
+          ':clave'=>$data->_clave,
+          ':nombre'=>$data->_nombre,
+          ':descripcion'=>$data->_descripcion,
+          ':fecha_asistencia'=>$data->_fecha_asistencia,
+          ':hora_asistencia_inicio'=>$data->_hora_asistencia_inicio,
+          ':hora_asistencia_fin'=>$data->_hora_asistencia_fin,
+          ':url'=> $data->_url,
+          ':utilerias_administrador_id'=> $data->_utilerias_administrador_id
+         
+          );
+
+          $id = $mysqli->insert($query,$parametros);
+          //UtileriasLog::addAccion($accion);
+          return $id;
+       
+  }
+
     public static function update($data){
         
     }

@@ -87,10 +87,11 @@ html;
 html;
 
         $codigo = RegistroAsistenciaDao::getById($id);
+        $foro = RegistroAsistenciaDao::getById($id)[0]['foro'];
 
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id);
+        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id,$foro);
 
-        $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id)[0]['nombre_asistencia'];
+        $nombre_asistencia = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($id,$foro)[0]['nombre_asistencia'];
 
         $tabla = '';
         foreach ($lista_registrados as $key => $value) {
@@ -157,9 +158,9 @@ html;
         }
     }
 
-    public function mostrarLista($clave)
+    public function mostrarLista($clave,$foro)
     {
-        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($clave);
+        $lista_registrados = RegistroAsistenciaDao::getRegistrosAsistenciasByCode($clave,$foro);
 
         echo json_encode($lista_registrados);
     }
@@ -176,8 +177,10 @@ html;
     public function registroAsistencia($clave, $code){
         
         $user_clave = RegistroAsistenciaDao::getInfo($clave)[0];
+        $foro = $user_clave['foro'][0];
         $especialidades = RegistroAsistenciaDao::getEspecialidades();
         $asistencia = RegistroAsistenciaDao::getIdRegistrosAsistenciasByCode($code)[0];
+        $foro_asistencia = $asistencia['foro'][0];
 
         $fecha = new DateTime('now', new DateTimeZone('America/Cancun'));
         $hora_actual = substr($fecha->format(DATE_RFC822), 15, 5);
@@ -211,22 +214,27 @@ html;
                     $msg_insert = 'success_find_assistant';
                 } else {
                     $msg_insert = 'fail_not_found_assistant';
-                    $insert = RegistroAsistenciaDao::addRegister($asistencia['id_asistencia'], $user_clave['utilerias_asistentes_id'], $a_tiempo);
+                    if($foro == $foro_asistencia){
+                        $insert = RegistroAsistenciaDao::addRegister($asistencia['id_asistencia'], $user_clave['utilerias_asistentes_id'], $a_tiempo);
+                        $data = [
+                            'datos' => $user_clave,
+                            'especialidades' => $especialidades,
+                            'status' => 'success',
+                            'msg_insert' => $msg_insert,
+                            'hay_asistente' => $hay_asistente,
+                            'asistencia' => $asistencia,
+                            'hora_actual' => $hora_actual,
+                            'a_tiempo' => $a_tiempo,
+                            'aqui' => $aqui,
+                            'hora_actual' => intval(substr($hora_actual, 0, 2)),
+                            'hora_fin' => intval(substr($asistencia['hora_asistencia_fin'], 0, 2)),
+                        ];
+                    }else{
+                        $data = [
+                            'status' => 'fail'
+                        ];
+                    }
                 }
-    
-                $data = [
-                    'datos' => $user_clave,
-                    'especialidades' => $especialidades,
-                    'status' => 'success',
-                    'msg_insert' => $msg_insert,
-                    'hay_asistente' => $hay_asistente,
-                    'asistencia' => $asistencia,
-                    'hora_actual' => $hora_actual,
-                    'a_tiempo' => $a_tiempo,
-                    'aqui' => $aqui,
-                    'hora_actual' => intval(substr($hora_actual, 0, 2)),
-                    'hora_fin' => intval(substr($asistencia['hora_asistencia_fin'], 0, 2)),
-                ];
             } else {
                 $data = [
                     'status' => 'fail'
@@ -376,7 +384,6 @@ html;
 
         $this->generaterQr($clave);
         $datos_user = AsistentesDao::getRegistroAccesoByClaveRA($clave)[0];
-
         $nombre_completo = mb_strtoupper($datos_user['nombre']) . "\n\n" . mb_strtoupper($datos_user['apellido_paterno'] . " " . mb_strtoupper($datos_user['apellido_materno']));
         
         //ABRIRPDFGAFETE
@@ -390,12 +397,14 @@ html;
 
         $insertImpresionGafete = RegistroAsistenciaDao::insertImpGafete($datos_user['id_registro_acceso']);
 
-
         $pdf = new \FPDF($orientation = 'P', $unit = 'mm', array(300, 210));
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Image('qrs/gafetes/'.$clave.'.png',95.5,217,22,0,'PNG');
+        if($datos_user['nota'] != ''){
+        }else{
+        $pdf->Image('qrs/gafetes/'.$clave.'.png',95.5,184,22,0,'PNG');
+        }
         $pdf->SetFont('Arial', 'B', 25);
         // $pdf->Multicell(133, 80, $clave_ticket, 0, 'C');
 
@@ -405,7 +414,7 @@ html;
         //$num_linea =utf8_decode("Línea: 39");
         //$num_linea2 =utf8_decode("Línea: 39");
 
-        $pdf->setXY(70,242);
+        $pdf->setXY(70,206);
         $pdf->SetFont('Times','B',20);
         #4D9A9B
         $pdf->SetTextColor(0, 0, 0);

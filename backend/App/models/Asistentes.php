@@ -391,4 +391,38 @@ sql;
       return $mysqli->insert($query);
     }
 
+    public static function getPais(){       
+      $mysqli = Database::getInstance();
+      $query=<<<sql
+      SELECT * FROM paises
+  sql;
+      return $mysqli->queryAll($query);
+    }
+
+    public static function getEstado($id){       
+      $mysqli = Database::getInstance();
+      $query=<<<sql
+      SELECT * FROM estados WHERE id_pais = '$id';
+  sql;
+      return $mysqli->queryAll($query);
+    }
+
+    public static function getStateByCountry($id_pais){
+      $mysqli = Database::getInstance(true);
+      $query =<<<sql
+      SELECT * FROM estados where id_pais = '$id_pais'
+  sql;
+    
+      return $mysqli->queryAll($query);
+    }
+
+    public static function getUserRegister($email){
+      $mysqli = Database::getInstance(true);
+      $query =<<<sql
+      SELECT * FROM registros_acceso WHERE email = '$email'
+  sql;
+  
+      return $mysqli->queryAll($query);
+  }
+
 }
