@@ -391,7 +391,7 @@ html;
         $segundo_nombre = html_entity_decode($datos_user['segundo_nombre']);
         $apellido = html_entity_decode($datos_user['apellido_paterno']);
         $segundo_apellido = html_entity_decode($datos_user['apellido_materno']);
-        $nombre_completo = ($nombre)." ".($apellido);
+        $nombre_completo = ($nombre)." ".($segundo_nombre)." ".($apellido)." ".($segundo_apellido);
         $nombre_completo = mb_strtoupper($nombre_completo);
         
 
@@ -403,7 +403,7 @@ html;
         $pdf->SetFont('Arial', 'B', 16);
         if($datos_user['nota'] != ''){
         }else{
-        $pdf->Image('qrs/gafetes/'.$clave.'.png',95.5,184,22,0,'PNG');
+        $pdf->Image('qrs/gafetes/'.$clave.'.png',95.5,187,22,0,'PNG');
         }
         $pdf->SetFont('Arial', 'B', 25);
         // $pdf->Multicell(133, 80, $clave_ticket, 0, 'C');
@@ -414,8 +414,8 @@ html;
         //$num_linea =utf8_decode("Línea: 39");
         //$num_linea2 =utf8_decode("Línea: 39");
 
-        $pdf->setXY(70,206);
-        $pdf->SetFont('Times','B',20);
+        $pdf->setXY(61.5,212);
+        $pdf->SetFont('Times','B',22);
         #4D9A9B
         $pdf->SetTextColor(0, 0, 0);
         $pdf->SetLeftMargin(0);
@@ -423,7 +423,7 @@ html;
         $pdf->SetRightMargin(0);
         $pdf->SetAutoPageBreak(true,25);
         $pdf->SetMargins(30, 25, 30, 10);
-        $pdf->Multicell(70.8,7, utf8_decode($nombre_completo), 0, 'C');
+        $pdf->Multicell(90,7.7, utf8_decode($nombre_completo), 0, 'C');
         $pdf->output();     
     }
 

@@ -37,7 +37,7 @@ sql;
 //REGISTROS ACCESOS NADA MÁS
 $query =<<<sql
     SELECT * FROM registros_acceso 
-    WHERE CONCAT_WS(nota,email,nombre,segundo_nombre,apellido_materno,apellido_paterno,ticket_virtual) LIKE '%$search%';
+    WHERE CONCAT_WS(email,nombre,segundo_nombre,apellido_materno,apellido_paterno,ticket_virtual,nota) LIKE '%$search%';
 sql;
     return $mysqli->queryAll($query);
   }

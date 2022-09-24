@@ -251,9 +251,36 @@ sql;
       return $mysqli->queryAll($query);
   }
     
-    public static function insert($data){
-        
-    }
+  public static function insert($datos){
+    $mysqli = Database::getInstance(1);
+    $query=<<<sql
+    INSERT INTO registros_acceso (especialidad,id_aeropuerto,nombre,segundo_nombre,apellido_paterno,apellido_materno,
+    genero,pais,estado,telefono,email,alergia,fecha_alta,cedula,politica,constancia,foro) 
+    VALUES (1,1,:nombre,:segundo_nombre,:apellidop,:apellidom,:genero,:pais,:estado,:telefono,:usuario,'NINGUNA',
+    '2022-09-23 19:07:34',1,1,1,:foro)
+sql;
+
+  $parametros = array(
+    ':nombre'=>$datos->_nombre,
+    ':segundo_nombre'=>$datos->_segundo_nombre,
+    ':apellidop'=>$datos->_apellidop,
+    ':apellidom'=>$datos->_apellidom,
+    ':genero'=>$datos->_genero,
+    ':pais'=>$datos->_pais,
+    ':estado'=>$datos->_estado,
+    ':telefono'=>$datos->_telefono,
+    ':usuario'=>$datos->_usuario,
+    ':foro'=>$datos->_foro,
+  );
+  $id = $mysqli->insert($query,$parametros);
+  // $accion = new \stdClass();
+  // $accion->_sql= $query;
+  // $accion->_parametros = $parametros;
+  // $accion->_id = $id;
+
+  // UtileriasLog::addAccion($accion);
+  return $id;
+}
 
     public static function insertTicket($clave){
       $mysqli = Database::getInstance(true);

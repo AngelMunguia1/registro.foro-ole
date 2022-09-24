@@ -96,25 +96,21 @@ html;
         $referencia = $str_nombre[0].$str_nombre[1].$str_apellidop[0].$str_apellidop[1].$fecha[0].$fecha[1].$fecha[2];
 
         $nombre = $_POST['nombre'];
+        $segundo_nombre = $_POST['segundo_nombre'];
         $apellidop = $_POST['apellidop'];
         $apellidom = $_POST['apellidom'];
-        $categoria = MasterDom::getData('categoria');
-        $nombre_constancia = $_POST['nombre']." ". $_POST['apellidop'] . " ". $_POST['apellidom'];
 
         $data = new \stdClass();            
         $data->_nombre = $nombre;
+        $data->_segundo_nombre = $segundo_nombre;
         $data->_apellidop = $apellidop;
-        $data->_apellidom = $apellidom; 
+        $data->_apellidom = $apellidom;
         $data->_usuario = MasterDom::getData('usuario');
-        $data->_title= MasterDom::getData('title');
         $data->_telefono = MasterDom::getData('telefono');
         $data->_pais = MasterDom::getData('pais');
         $data->_estado = MasterDom::getData('estado');
-        $data->_nombreconstancia = $nombre_constancia;
-        $data->_modalidad = MasterDom::getData('modalidad');
-        $data->_categoria = MasterDom::getData('categoria');
-        $data->_referencia = $referencia;
-        $data->_motivo = MasterDom::getData('motivo');
+        $data->_genero = MasterDom::getData('genero');
+        $data->_foro = MasterDom::getData('foro');
 
         $id = AsistentesDao::insert($data);
         if ($id >= 1) {

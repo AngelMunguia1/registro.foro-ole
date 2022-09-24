@@ -105,7 +105,7 @@
                 </div>
             </div>
             <!-- MODAL REGISTRAR NUEVO USUARIO -->
-            <!-- <div class="d-flex m-1">
+            <div class="d-flex m-1">
                 <div class="ms-auto d-flex">
                     <div class="pe-4 mt-1 position-relative">
                         <hr class="vertical dark mt-0">
@@ -119,7 +119,7 @@
 
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <div class="row">
                 <div class="col-12">
@@ -267,15 +267,25 @@
                                 <input type="text" class="form-control" id="apellidom" name="apellidom" placeholder="Apellido Materno" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label col-md-12 col-sm-1 col-xs-12" for="usuario">Email <span class="required">*</span></label>
                                 <input type="email" class="form-control" id="usuario" name="usuario" placeholder="Email" required>
                                 <span id="msg_email" style="font-size: 0.75rem; font-weight: 700;margin-bottom: 0.5rem;"></span>
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label col-md-12 col-sm-1 col-xs-12" for="telefono">Telefono</label>
                                 <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Telefono">
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label class="control-label col-md-12 col-sm-1 col-xs-12" for="title">Género</label>
+                                <select class="multisteps-form__select form-control all_input_select" name="genero" id="genero">
+                                    <option value="" selected>Selecciona una Opción</option>
+                                    <option value="Hombre">Hombre</option>
+                                    <option value="Mujer">Mujer</option>
+                                    <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+                                </select>
                             </div>
 
                             <div class="form-group col-md-4">
@@ -294,12 +304,11 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label class="control-label col-md-12 col-sm-1 col-xs-12" for="title">Género</label>
-                                <select class="multisteps-form__select form-control all_input_select" name="genero" id="genero">
+                                <label class="control-label col-md-12 col-sm-1 col-xs-12" for="title">Foro <span class="required">*</span></label>
+                                <select class="multisteps-form__select form-control all_input_select" name="foro" id="foro" required>
                                     <option value="" selected>Selecciona una Opción</option>
-                                    <option value="Hombre">Hombre</option>
-                                    <option value="Mujer">Mujer</option>
-                                    <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+                                    <option value="1">Hematología</option>
+                                    <option value="2">Oncología</option>
                                 </select>
                             </div>
 
