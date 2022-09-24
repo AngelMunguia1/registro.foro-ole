@@ -425,7 +425,7 @@ html;
         $pdf->SetRightMargin(0);
         $pdf->SetAutoPageBreak(true,25);
         $pdf->SetMargins(30, 25, 30, 10);
-        if($datos_user['nota'] != ''){
+        if($datos_user['nota'] == 'STAFF'){
         $pdf->Multicell(90,7.7, utf8_decode(ucwords($nombre_staff)), 0, 'C');
         }else{
         $pdf->Multicell(90,7.7, utf8_decode(ucwords($nombre_completo)), 0, 'C');
