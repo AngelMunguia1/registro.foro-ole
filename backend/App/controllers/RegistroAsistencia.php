@@ -360,7 +360,7 @@ html;
             $pdf->SetFont('Times', 'B', 10);
             #4D9A9B
             $pdf->SetTextColor(0, 0, 0);
-            $pdf->Multicell(120, 4.2, $nombre_completo . utf8_decode(" #habitación") . " - " . $datos_user['numero_habitacion'], 0, 'C');
+            $pdf->Multicell(120, 4.2, ucwords($nombre_completo) . utf8_decode(" #habitación") . " - " . $datos_user['numero_habitacion'], 0, 'C');
             // $pdf->Multicell(120, 4.2, $nombre_completo .utf8_decode(" #habitación") ." - ".$datos_user['numero_habitacion'], 0, 'C');
             // $pdf->Multicell(120, 3.5, $numero_habitacion, 0, 'C');
 
@@ -392,7 +392,9 @@ html;
         $apellido = html_entity_decode($datos_user['apellido_paterno']);
         $segundo_apellido = html_entity_decode($datos_user['apellido_materno']);
         $nombre_completo = ($nombre)." ".($segundo_nombre)." ".($apellido)." ".($segundo_apellido);
-        $nombre_completo = mb_strtoupper($nombre_completo);
+        $nombre_staff = ($nombre)." ".($apellido);
+		$nombre_staff = ($nombre_staff);
+        $nombre_completo = ($nombre_completo);
         
 
         $insertImpresionGafete = RegistroAsistenciaDao::insertImpGafete($datos_user['id_registro_acceso']);
@@ -423,7 +425,11 @@ html;
         $pdf->SetRightMargin(0);
         $pdf->SetAutoPageBreak(true,25);
         $pdf->SetMargins(30, 25, 30, 10);
-        $pdf->Multicell(90,7.7, utf8_decode($nombre_completo), 0, 'C');
+        if($datos_user['nota'] != ''){
+        $pdf->Multicell(90,7.7, utf8_decode(ucwords($nombre_staff)), 0, 'C');
+        }else{
+        $pdf->Multicell(90,7.7, utf8_decode(ucwords($nombre_completo)), 0, 'C');
+        }
         $pdf->output();     
     }
 
