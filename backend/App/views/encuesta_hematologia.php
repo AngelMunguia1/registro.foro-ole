@@ -20,7 +20,7 @@ echo $header;
                                                     <form class="multisteps-form__form" id="form_encuesta" method="POST" action="/EncuestaSatisfaccion/saveEncuesta" style="height: 403px;">
                                                         <div id="card_three" class="card multisteps-form__panel p-1 border-radius-xl bg-white js-active" data-animation="FadeIn">
 
-
+                                                            <input type="hidden" name="sitio_url" id="sitio_url" value="">
                                                             <div class="row text-center mt-4">
                                                                 <div class="col-10 mx-auto">
                                                                     <h5 class="font-weight-normal"><strong>FORO OLE 2022
@@ -201,13 +201,13 @@ echo $header;
                                                                                 </div>
                                                                             </li>
 
-                                                                            <!-- <li>
+                                                                            <li>
                                                                                 <p>5. Nivel de los expositores.</p>
                                                                                 <table class="table">
                                                                                     <tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/1.png" alt="" class="photo">
-                                                                                            MAURICIO TOHEN
+                                                                                            Dr. Alvaro Alencar
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="row mt-4 d-flex justify-content-around text-center">
@@ -247,7 +247,7 @@ echo $header;
                                                                                     <tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/2.png" alt="" class="photo">
-                                                                                            ALFREDO B. CUELLAR BARBOZA
+                                                                                            Dr. David Gómez Almaguer
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="row mt-4 d-flex justify-content-around text-center">
@@ -287,7 +287,7 @@ echo $header;
                                                                                     <tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/3.png" alt="" class="photo">
-                                                                                            MANUEL SÁNCHEZ DE CARMONA LUNA Y PARRA
+                                                                                            Dr. Carlos Ortiz Hidalgo
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="row mt-4 d-flex justify-content-around text-center">
@@ -327,7 +327,7 @@ echo $header;
                                                                                     <tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/4.png" alt="" class="photo">
-                                                                                            MARÍA YOLDI NEGRETE
+                                                                                            Dr. Eleazar Hernández Ruiz
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="row mt-4 d-flex justify-content-around text-center">
@@ -367,7 +367,7 @@ echo $header;
                                                                                     <tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/5.png" alt="" class="photo">
-                                                                                            JESÚS RAMÍREZ BERMÚDEZ
+                                                                                            Dra. Margarita Rodríguez Mejorada
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="row mt-4 d-flex justify-content-around text-center">
@@ -402,12 +402,12 @@ echo $header;
 
                                                                                             </div>
                                                                                         </td>
-                                                                                    </tr> -->
+                                                                                    </tr>
 
-                                                                                    <!-- <tr>
+                                                                                    <tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/6.png" alt="" class="photo">
-                                                                                            ARTURO VÁZQUEZ LEDUC
+                                                                                            Dr. Luis Villela Martínez
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="row mt-4 d-flex justify-content-around text-center">
@@ -442,12 +442,12 @@ echo $header;
 
                                                                                             </div>
                                                                                         </td>
-                                                                                    </tr> -->
+                                                                                    </tr>
 
-                                                                                    <!-- <tr>
+                                                                                    <tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/dr (8).png" alt="" class="photo">
-                                                                                            MIRASSOU MANUEL
+                                                                                            Dr. José A. Pérez Simón
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="row mt-4 d-flex justify-content-around text-center">
@@ -484,7 +484,7 @@ echo $header;
                                                                                         </td>
                                                                                     </tr>
 
-                                                                                    <tr>
+                                                                                    <!--<tr>
                                                                                         <td>
                                                                                             <img src="/assets/images/dr_musa/dr (2).png" alt="" class="photo">
                                                                                             VELASCO CÉSAR
@@ -805,8 +805,8 @@ echo $header;
                                                                                         </td>
                                                                                     </tr> -->
 
-                                                                                <!-- </table>
-                                                                            </li> -->
+                                                                                </table>
+                                                                            </li>
 
                                                                             <li>
                                                                                 <p>5. Valoración respecto al tiempo destinado a las conferencias, preguntas y mesas redondas.</p>
@@ -987,6 +987,11 @@ echo $header;
 <script>
         $(document).ready(function(){
 
+            var site = window.location.pathname;
+            var sitio_url = site.split('/');
+            $("#sitio_url").val(sitio_url[2]);
+            // console.log(sitio_url[2]);
+
             //VALIDACIÓN DE EMAIL ENCUESTA
             // $("#email").on("blur",function(){
                 
@@ -1026,7 +1031,7 @@ echo $header;
                 // }
 
                 $.ajax({
-                    url: "/EncuestaSatisfaccion/saveEncuesta",
+                    url: "/EncuestaSatisfaccion/saveEncuestaHema",
                     type: "POST",
                     data: formData, 
                     dataType: 'json',                
@@ -1041,9 +1046,10 @@ echo $header;
                             $("#btn_download_pdf")[0].click();
 
                             Swal.fire(respuesta.msg, respuesta.msg2, respuesta.status).
-                                then((value) => {       
+                                then((value) => {    
+                                    
                                                       
-                                window.location.replace("/EncuestaSatisfaccion/");
+                                window.location.replace("/EncuestaSatisfaccion/"+$("#sitio_url").val());
                             });                
                              
                         
@@ -1051,14 +1057,14 @@ echo $header;
                             Swal.fire(respuesta.msg, respuesta.msg2, 'success').
                                 then((value) => {       
                                                       
-                                window.location.replace("/EncuestaSatisfaccion/");
+                                 window.location.replace("/EncuestaSatisfaccion/"+$("#sitio_url").val());
                             });
                         }
                         else{
 
                             Swal.fire(respuesta.msg, "", respuesta.status).
                                 then((value) => {
-                                window.location.replace("/EncuestaSatisfaccion/");
+                                 window.location.replace("/EncuestaSatisfaccion/"+$("#sitio_url").val());
                             });
 
                             
