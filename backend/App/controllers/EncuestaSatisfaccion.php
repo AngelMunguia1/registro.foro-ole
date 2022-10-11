@@ -389,7 +389,7 @@ html;
                         
                     ];
                     //CONSTANCIA
-                    $this->generarPDF($data_pdf);
+                    // $this->generarPDF($data_pdf);
                     $datos = [
                         "status" => "success",
                         "msg" => "¡Gracias por contestar la encuesta!",
